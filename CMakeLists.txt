@@ -44,9 +44,9 @@ file(GLOB hdrs *.hpp *.h)
 include_directories("${CMAKE_CURRENT_LIST_DIR}")# Since there are a lot of examples I'm going to use a macro to simplify this
 # CMakeLists.txt file.  However, usually you will create only one executable in
 # your cmake projects and use the syntax shown above.
-macro(add_example name)
-    add_executable(${name} ${name}.cpp)
-    target_link_libraries(${name} ${OpenCV_LIBS} )
+macro(add_example exeName name)
+    add_executable(${exeName} ${name}.cpp)
+    target_link_libraries(${exeName} ${OpenCV_LIBS} )
 endmacro()# if an example requires GUI, call this macro to check DLIB_NO_GUI_SUPPORT to include or exclude
 macro(add_gui_example name)
     if (DLIB_NO_GUI_SUPPORT)
@@ -55,4 +55,7 @@ macro(add_gui_example name)
         add_example(${name})
     endif()
 endmacro()
-add_example(main)
+
+add_example(main main)
+add_example(windows nativeWindows/windows)
+
