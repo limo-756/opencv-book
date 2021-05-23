@@ -1,17 +1,13 @@
 cmake_minimum_required(VERSION 3.17)
-project(UI)
+project(opencv-book)
 
 set(CMAKE_CXX_STANDARD 14)
-
-#add_executable(UI main.cpp)
-
 
 
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 if(NOT CMAKE_BUILD_TYPE AND NOT (MSVC_IDE OR XCODE))
     set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type, one of: Release, Debug" FORCE)
 endif()# Set target name, change with your favorite name
-project(nc-rd-facemask CXX)
 message( STATUS "Build type: ${CMAKE_BUILD_TYPE}" )
 message( STATUS "Configuration types: ${CMAKE_CONFIGURATION_TYPES}" )# Detect 64 or 32 bit
 if (CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -57,5 +53,5 @@ macro(add_gui_example name)
 endmacro()
 
 add_example(main main)
-add_example(windows nativeWindows/windows)
+add_example(createWindow nativeWindows/createWindow)
 
