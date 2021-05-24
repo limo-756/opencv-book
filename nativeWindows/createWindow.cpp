@@ -16,6 +16,15 @@ int main(int argc, char const *argv[])
     namedWindow("WINDOW_GUI_EXPANDED", WINDOW_GUI_EXPANDED);
     namedWindow("WINDOW_GUI_NORMAL", WINDOW_GUI_NORMAL);
 
+    moveWindow("WINDOW_NORMAL", 0, 0);
+    moveWindow("WINDOW_AUTOSIZE", 400, 0);
+    moveWindow("WINDOW_OPENGL", 800, 0);
+    moveWindow("WINDOW_FULLSCREEN", 0, 400);
+    moveWindow("WINDOW_FREERATIO", 400, 400);
+    moveWindow("WINDOW_KEEPRATIO", 800, 400);
+    moveWindow("WINDOW_GUI_EXPANDED", 0, 800);
+    moveWindow("WINDOW_GUI_NORMAL", 400, 800);
+
     imshow("WINDOW_NORMAL", img);
     imshow("WINDOW_AUTOSIZE", img);
     imshow("WINDOW_OPENGL", img);
