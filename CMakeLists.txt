@@ -54,4 +54,5 @@ endmacro()
 
 add_example(main main)
 add_example(createWindow nativeWindows/createWindow)
+add_example(createSelectionBoxesOnImage nativeWindows/createSelectionBoxesOnImage)
 
