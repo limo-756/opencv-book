@@ -5,30 +5,34 @@ using namespace cv;
 
 Point2d* startPosition;
 Point2d* endPosition;
+bool shouldDraw = false;
+
+void drawRectangle(const Mat& original, const bool draw) {
+    Mat newImg(original.size(), original.type());
+    original.copyTo(newImg);
+
+    if (draw) {
+        rectangle(newImg, Rect2d(*startPosition, *endPosition), Scalar( 0, 255, 0, 128 ), 1, LINE_8, 0);
+    }
+    imshow("CREATE_SELECTION_BOXES", newImg);
+    newImg.deallocate();
+    waitKey(1000);
+}
 
 void drawRect(int event, int x, int y, int flags, void* params) {
-    bool shouldDraw = false;
-    cout << "In draw method " << event << " -> " << x << " : " << y << endl;
     if (event == cv::EVENT_LBUTTONDOWN) {
         startPosition = new Point2d(x, y);
         shouldDraw = true;
     } else if (event == cv::EVENT_MOUSEMOVE) {
-//        endPosition = Point2d(x, y);
-//        shouldDraw = true;
+        endPosition = new Point2d(x, y);
     } else if (event == cv::EVENT_LBUTTONUP) {
         endPosition = new Point2d(x, y);
-        shouldDraw = true;
+        shouldDraw = false;
+        drawRectangle(Mat(*(Mat *) params), false);
     }
 
     if (shouldDraw) {
-        Mat orignal = Mat(*(Mat *) params);
-        Mat newImg(orignal.size(), orignal.type());
-        orignal.copyTo(newImg);
-        rectangle(newImg, Rect2d(*startPosition, *endPosition), Scalar( 0, 255, 0, 128 ), 1, LINE_8, 0);
-        imshow("CREATE_SELECTION_BOXES", newImg);
-        waitKey(1000);
-//        startPosition = NULL;
-//        endPosition = NULL;
+        drawRectangle(Mat(*(Mat *) params), true);
     }
 }
 
