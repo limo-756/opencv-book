@@ -7,11 +7,10 @@ const string WINDOW_NAME = "SHOW_VIDEO";
 const string TRACKER_NAME = "VIDEO_TRACKER";
 
 void trackbarCallback(int pos, void* userdata) {
-    cout << "Callback" << endl;
-    cout << "Callback" << endl;
-    cout << pos << endl;
     VideoCapture videoCapture = *(VideoCapture *) userdata;
-    videoCapture.set(CAP_PROP_POS_AVI_RATIO, pos/100.0);
+    long totalFrames = (long) videoCapture.get(CAP_PROP_FRAME_COUNT);
+    long nextFrame = (long) ((pos/100.0) * totalFrames);
+    videoCapture.set(CAP_PROP_POS_FRAMES, (double) nextFrame);
 }
 
 int main() {
@@ -24,13 +23,12 @@ int main() {
 
     while (true) {
         videoCapture.read(img);
-//        videoCapture >> img;
         if (img.empty()) {
             cout << "Ran out of frames" << endl;
-            continue;
+            break;
         }
         imshow(WINDOW_NAME, img);
-        if (waitKey(200) == 27) break;
+        if (waitKey(10) == 27) break;
     }
     return 0;
 }
