@@ -57,6 +57,8 @@ add_example(createWindow nativeWindows/createWindow)
 add_example(create1RectBoxOnImage nativeWindows/create1RectBoxOnImage)
 add_example(createRectBoxesOnImage nativeWindows/createRectBoxesOnImage)
 add_example(parseVideoFrameByFrameWithASlider nativeWindows/parseVideoFrameByFrameWithASlider)
+add_example(useTrackbarAsPauseButton nativeWindows/useTrackbarAsPauseButton)
+
 add_example(readVideo ImageVideoAndDataFiles/readVideo)
 add_example(readFramesFromCamera ImageVideoAndDataFiles/readFramesFromCamera)
 add_example(writeVideoToFile ImageVideoAndDataFiles/writeVideoToFile)
