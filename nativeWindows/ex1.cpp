@@ -1,5 +1,6 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/core/mat.hpp>
+#include <utility>
 #include "/usr/local/include/c++/10.2.0/bits/stdc++.h"
 using namespace std;
 using namespace cv;
@@ -103,6 +104,73 @@ void ShowManyImages(string title, vector<Mat> &images) {
 
 // End the number of arguments
 }
+
+class FixedSizeMultiImageHandler {
+    vector<Mat> componentImages;
+    Size sizeOfComponentImage = Size(300, 300);
+    Mat collatedImage;
+    Size collatedImageSize;
+    int noOfRows = 0, noOfCols = 0;
+
+    void findNumberOfColumnsAndRowsInResultantImage() {
+        switch (componentImages.size()) {
+            case 1:
+                noOfRows = 1; noOfCols = 1;
+                break;
+            case 2:
+                noOfRows = 1; noOfCols = 2;
+                break;
+            case 3:
+            case 4:
+                noOfRows = 2; noOfCols = 2;
+                break;
+            case 5:
+            case 6:
+                noOfRows = 2; noOfCols = 3;
+                break;
+            case 7:
+            case 8:
+                noOfRows = 2; noOfCols = 4;
+                break;
+            case 9:
+            case 10:
+            case 11:
+            case 12:
+                noOfRows = 3; noOfCols = 4;
+                break;
+        }
+    }
+
+public:
+    explicit FixedSizeMultiImageHandler(vector<Mat> &images, Size sizeOfComponentImage = Size(300, 300)) {
+        this->componentImages = images;
+        this->sizeOfComponentImage = std::move(sizeOfComponentImage);
+        this->collateComponentImages();
+    }
+
+    void collateComponentImages() {
+        findNumberOfColumnsAndRowsInResultantImage();
+
+        collatedImageSize = Size2d(sizeOfComponentImage.width * noOfCols, sizeOfComponentImage.height * noOfRows);
+        collatedImage = Mat(collatedImageSize, CV_8UC3, Scalar(0, 0, 0, 0));
+
+        for (int imageNumber = 0; imageNumber < componentImages.size(); ++imageNumber) {
+            Mat image = componentImages[imageNumber];
+            Mat temp;
+            double scale = (image.rows > image.cols) ? (sizeOfComponentImage.width/image.rows) : (sizeOfComponentImage.height/image.cols);
+            resize(image, temp, Size2d(image.rows * scale , image.cols * scale));
+
+
+        }
+    }
+
+
+    Mat& getCollatedImage() {
+        return collatedImage;
+    }
+
+
+};
 
 int main() {
     Mat img = imread("/Users/anurag.sh/Season2/naruto/DSC_1917.JPG", IMREAD_COLOR);
