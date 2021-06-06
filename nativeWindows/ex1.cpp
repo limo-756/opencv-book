@@ -114,17 +114,31 @@ class FixedSizeMultiImageHandler {
 
     void collateComponentImages() {
         findNumberOfColumnsAndRowsInResultantImage();
+        cout << "Calculating rows and cols" << endl;
+        cout << "rows : " << noOfRows << " cols : " << noOfCols << endl;
 
         collatedImageSize = Size2d(sizeOfComponentImage.width * noOfCols, sizeOfComponentImage.height * noOfRows);
+        cout << "Collated Image Size is " << collatedImageSize << endl;
         collatedImage = Mat(collatedImageSize, CV_8UC3, Scalar(0, 0, 0, 0));
 
+        cout << "created black image" << endl;
+
         for (int imageNumber = 0; imageNumber < componentImages.size(); ++imageNumber) {
+            cout << "image number : " << imageNumber << endl;
             Mat image = componentImages[imageNumber];
             Mat temp;
-            double scale = (image.rows > image.cols) ? (sizeOfComponentImage.width/image.rows) : (sizeOfComponentImage.height/image.cols);
-            resize(image, temp, Size2d(image.rows * scale , image.cols * scale));
+            double scale = (image.rows > image.cols) ? ((double) sizeOfComponentImage.width/image.rows) : ((double) sizeOfComponentImage.height/image.cols);
 
-            Rect2i componentImageCoordinatesInCollatedImage = getComponentImageCoordInCollatedImage(imageNumber);
+            cout << "imag rows : " << image.rows << " image cols : " << image.cols << endl;
+            cout << "scale is " << scale << endl;
+
+            resize(image, temp, Size2d(image.rows * scale , image.cols * scale), scale, scale);
+
+            cout << "Image is resized Hurray!" << endl;
+
+            Rect2i componentImageCoordinatesInCollatedImage = getComponentImageCoordInCollatedImage(imageNumber, temp);
+
+            cout << "Rectangle coords that we got " << componentImageCoordinatesInCollatedImage << endl;
             temp.copyTo(collatedImage(componentImageCoordinatesInCollatedImage));
         }
     }
@@ -158,10 +172,11 @@ class FixedSizeMultiImageHandler {
         }
     }
 
-    Rect getComponentImageCoordInCollatedImage(int imageNumber) {
+    Rect getComponentImageCoordInCollatedImage(int imageNumber, Mat& temp) {
         int rowNumber = imageNumber/noOfCols;
         int columnNumber = imageNumber%noOfCols;
-        return {sizeOfComponentImage.width * columnNumber, sizeOfComponentImage.height * rowNumber, sizeOfComponentImage.width, sizeOfComponentImage.height};
+        cout << "Resiged image coords : " << temp.cols << "  rows : " << temp.rows << endl;
+        return {sizeOfComponentImage.width * columnNumber, sizeOfComponentImage.height * rowNumber, temp.cols, temp.rows};
     }
 
 public:
@@ -178,6 +193,8 @@ public:
 
 int main() {
     Mat img = imread("/Users/anurag.sh/Season2/naruto/DSC_1917.JPG", IMREAD_COLOR);
+    namedWindow("ABCD", WINDOW_NORMAL);
+    imshow("ABCD", img);
     vector<Mat> v1;
     v1.push_back(img);
     v1.push_back(img);
@@ -190,7 +207,8 @@ int main() {
 //    ShowManyImages("CREATE_SELECTION_BOXES", v1);
     FixedSizeMultiImageHandler obj = FixedSizeMultiImageHandler(v1);
     Mat finalImage = obj.getCollatedImage();
-    namedWindow("CREATE_SELECTION_BOXES", WINDOW_NORMAL);
-    imshow("CREATE_SELECTION_BOXES", finalImage);
+    namedWindow("MULTIPLE_IMAGE_BOX", WINDOW_NORMAL);
+    imshow("MULTIPLE_IMAGE_BOX", finalImage);
+    waitKey(0);
     return 0;
 }
