@@ -112,6 +112,23 @@ class FixedSizeMultiImageHandler {
     Size collatedImageSize;
     int noOfRows = 0, noOfCols = 0;
 
+    void collateComponentImages() {
+        findNumberOfColumnsAndRowsInResultantImage();
+
+        collatedImageSize = Size2d(sizeOfComponentImage.width * noOfCols, sizeOfComponentImage.height * noOfRows);
+        collatedImage = Mat(collatedImageSize, CV_8UC3, Scalar(0, 0, 0, 0));
+
+        for (int imageNumber = 0; imageNumber < componentImages.size(); ++imageNumber) {
+            Mat image = componentImages[imageNumber];
+            Mat temp;
+            double scale = (image.rows > image.cols) ? (sizeOfComponentImage.width/image.rows) : (sizeOfComponentImage.height/image.cols);
+            resize(image, temp, Size2d(image.rows * scale , image.cols * scale));
+
+            Rect2i componentImageCoordinatesInCollatedImage = getComponentImageCoordInCollatedImage(imageNumber);
+            temp.copyTo(collatedImage(componentImageCoordinatesInCollatedImage));
+        }
+    }
+
     void findNumberOfColumnsAndRowsInResultantImage() {
         switch (componentImages.size()) {
             case 1:
@@ -141,6 +158,12 @@ class FixedSizeMultiImageHandler {
         }
     }
 
+    Rect getComponentImageCoordInCollatedImage(int imageNumber) {
+        int rowNumber = imageNumber/noOfCols;
+        int columnNumber = imageNumber%noOfCols;
+        return {sizeOfComponentImage.width * columnNumber, sizeOfComponentImage.height * rowNumber, sizeOfComponentImage.width, sizeOfComponentImage.height};
+    }
+
 public:
     explicit FixedSizeMultiImageHandler(vector<Mat> &images, Size sizeOfComponentImage = Size(300, 300)) {
         this->componentImages = images;
@@ -148,28 +171,9 @@ public:
         this->collateComponentImages();
     }
 
-    void collateComponentImages() {
-        findNumberOfColumnsAndRowsInResultantImage();
-
-        collatedImageSize = Size2d(sizeOfComponentImage.width * noOfCols, sizeOfComponentImage.height * noOfRows);
-        collatedImage = Mat(collatedImageSize, CV_8UC3, Scalar(0, 0, 0, 0));
-
-        for (int imageNumber = 0; imageNumber < componentImages.size(); ++imageNumber) {
-            Mat image = componentImages[imageNumber];
-            Mat temp;
-            double scale = (image.rows > image.cols) ? (sizeOfComponentImage.width/image.rows) : (sizeOfComponentImage.height/image.cols);
-            resize(image, temp, Size2d(image.rows * scale , image.cols * scale));
-
-
-        }
-    }
-
-
     Mat& getCollatedImage() {
         return collatedImage;
     }
-
-
 };
 
 int main() {
@@ -183,6 +187,10 @@ int main() {
     v1.push_back(img);
     v1.push_back(img);
     v1.push_back(img);
-    ShowManyImages("CREATE_SELECTION_BOXES", v1);
+//    ShowManyImages("CREATE_SELECTION_BOXES", v1);
+    FixedSizeMultiImageHandler obj = FixedSizeMultiImageHandler(v1);
+    Mat finalImage = obj.getCollatedImage();
+    namedWindow("CREATE_SELECTION_BOXES", WINDOW_NORMAL);
+    imshow("CREATE_SELECTION_BOXES", finalImage);
     return 0;
 }
