@@ -114,31 +114,17 @@ class FixedSizeMultiImageHandler {
 
     void collateComponentImages() {
         findNumberOfColumnsAndRowsInResultantImage();
-        cout << "Calculating rows and cols" << endl;
-        cout << "rows : " << noOfRows << " cols : " << noOfCols << endl;
 
         collatedImageSize = Size2d(sizeOfComponentImage.width * noOfCols, sizeOfComponentImage.height * noOfRows);
-        cout << "Collated Image Size is " << collatedImageSize << endl;
         collatedImage = Mat(collatedImageSize, CV_8UC3, Scalar(0, 0, 0, 0));
 
-        cout << "created black image" << endl;
-
         for (int imageNumber = 0; imageNumber < componentImages.size(); ++imageNumber) {
-            cout << "image number : " << imageNumber << endl;
             Mat image = componentImages[imageNumber];
             Mat temp;
-            double scale = (image.rows > image.cols) ? ((double) sizeOfComponentImage.width/image.rows) : ((double) sizeOfComponentImage.height/image.cols);
-
-            cout << "imag rows : " << image.rows << " image cols : " << image.cols << endl;
-            cout << "scale is " << scale << endl;
-
-            resize(image, temp, Size2d(image.rows * scale , image.cols * scale), scale, scale);
-
-            cout << "Image is resized Hurray!" << endl;
+            double scale = (image.rows > image.cols) ? ((double) sizeOfComponentImage.height/image.rows) : ((double) sizeOfComponentImage.width/image.cols);
+            resize(image, temp, Size2d(0 , 0), scale, scale);
 
             Rect2i componentImageCoordinatesInCollatedImage = getComponentImageCoordInCollatedImage(imageNumber, temp);
-
-            cout << "Rectangle coords that we got " << componentImageCoordinatesInCollatedImage << endl;
             temp.copyTo(collatedImage(componentImageCoordinatesInCollatedImage));
         }
     }
@@ -172,7 +158,7 @@ class FixedSizeMultiImageHandler {
         }
     }
 
-    Rect getComponentImageCoordInCollatedImage(int imageNumber, Mat& temp) {
+    Rect getComponentImageCoordInCollatedImage(int imageNumber, Mat& temp) const {
         int rowNumber = imageNumber/noOfCols;
         int columnNumber = imageNumber%noOfCols;
         cout << "Resiged image coords : " << temp.cols << "  rows : " << temp.rows << endl;
