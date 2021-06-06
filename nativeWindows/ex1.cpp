@@ -161,12 +161,13 @@ class FixedSizeMultiImageHandler {
     Rect getComponentImageCoordInCollatedImage(int imageNumber, Mat& temp) const {
         int rowNumber = imageNumber/noOfCols;
         int columnNumber = imageNumber%noOfCols;
-        cout << "Resiged image coords : " << temp.cols << "  rows : " << temp.rows << endl;
         return {sizeOfComponentImage.width * columnNumber, sizeOfComponentImage.height * rowNumber, temp.cols, temp.rows};
     }
 
 public:
     explicit FixedSizeMultiImageHandler(vector<Mat> &images, Size sizeOfComponentImage = Size(300, 300)) {
+        assert(images.size() <= 12);
+        assert(sizeOfComponentImage.width == sizeOfComponentImage.height);
         this->componentImages = images;
         this->sizeOfComponentImage = std::move(sizeOfComponentImage);
         this->collateComponentImages();
