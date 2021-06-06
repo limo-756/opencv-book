@@ -176,12 +176,42 @@ public:
     Mat& getCollatedImage() {
         return collatedImage;
     }
+
+    int getImageNumber(const Point2i pixelCoord) {
+        return (pixelCoord.x/sizeOfComponentImage.width) + (pixelCoord.y/sizeOfComponentImage.height) * noOfCols + 1;
+    }
+
 };
+
+const string WINDOW_NAME = "MULTIPLE_IMAGE_BOX";
+
+void displayPixelColorAndImageNumber(const Mat& original, const int imageNumber, const Scalar& color) {
+    Mat newImg(original.size(), original.type());
+    original.copyTo(newImg);
+
+    string message = "Image Number - " + std::to_string(imageNumber) +
+            " Color - " + std::to_string(color[0]) + "," + std::to_string(color[1]) + "," + std::to_string(color[2]) + "," + std::to_string(color[3]);
+    putText(newImg, message, Point2i(0, newImg.rows), FONT_HERSHEY_PLAIN, 1, Scalar( 0, 255, 0, 128 ), 2, 8, false);
+
+    cout << message << endl;
+    imshow(WINDOW_NAME, newImg);
+    newImg.deallocate();
+    waitKey(1000);
+}
+
+void displayPixelColorAndImageNumberOnMouseClick(int event, int x, int y, int flags, void* params) {
+    if (event == cv::EVENT_LBUTTONDOWN) {
+        FixedSizeMultiImageHandler obj = *(FixedSizeMultiImageHandler*) params;
+        int imageNumber = obj.getImageNumber(Point2i(x,y));
+        Mat img = obj.getCollatedImage();
+        Vec3b color = img.at<Vec3b>(Point(x,y));
+        displayPixelColorAndImageNumber(img, imageNumber, color);
+    }
+}
+
 
 int main() {
     Mat img = imread("/Users/anurag.sh/Season2/naruto/DSC_1917.JPG", IMREAD_COLOR);
-    namedWindow("ABCD", WINDOW_NORMAL);
-    imshow("ABCD", img);
     vector<Mat> v1;
     v1.push_back(img);
     v1.push_back(img);
@@ -192,10 +222,15 @@ int main() {
     v1.push_back(img);
     v1.push_back(img);
 //    ShowManyImages("CREATE_SELECTION_BOXES", v1);
-    FixedSizeMultiImageHandler obj = FixedSizeMultiImageHandler(v1);
+    FixedSizeMultiImageHandler obj = FixedSizeMultiImageHandler(v1, Size2i(300, 300));
     Mat finalImage = obj.getCollatedImage();
-    namedWindow("MULTIPLE_IMAGE_BOX", WINDOW_NORMAL);
-    imshow("MULTIPLE_IMAGE_BOX", finalImage);
-    waitKey(0);
+    namedWindow(WINDOW_NAME, WINDOW_NORMAL);
+    imshow(WINDOW_NAME, finalImage);
+    setMouseCallback(WINDOW_NAME, displayPixelColorAndImageNumberOnMouseClick, &obj);
+
+    while (true) {
+        if (waitKey(200) == 27) break;
+    }
+    destroyAllWindows();
     return 0;
 }
