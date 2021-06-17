@@ -41,7 +41,7 @@ include_directories("${CMAKE_CURRENT_LIST_DIR}")# Since there are a lot of examp
 # CMakeLists.txt file.  However, usually you will create only one executable in
 # your cmake projects and use the syntax shown above.
 macro(add_example exeName name)
-    add_executable(${exeName} ${name}.cpp)
+    add_executable(${exeName} ${name}.cpp FixedSizeMultiImageHandler.cpp)
     target_link_libraries(${exeName} ${OpenCV_LIBS} )
 endmacro()# if an example requires GUI, call this macro to check DLIB_NO_GUI_SUPPORT to include or exclude
 macro(add_gui_example name)
@@ -52,15 +52,17 @@ macro(add_gui_example name)
     endif()
 endmacro()
 
-add_example(main main)
-add_example(createWindow nativeWindows/createWindow)
-add_example(create1RectBoxOnImage nativeWindows/create1RectBoxOnImage)
-add_example(createRectBoxesOnImage nativeWindows/createRectBoxesOnImage)
-add_example(parseVideoFrameByFrameWithASlider nativeWindows/parseVideoFrameByFrameWithASlider)
-add_example(useTrackbarAsPauseButton nativeWindows/useTrackbarAsPauseButton)
+#add_example(main main)
+#add_example(FixedSizeMultiImageHandler FixedSizeMultiImageHandler)
+#add_example(createWindow nativeWindows/createWindow)
+#add_example(create1RectBoxOnImage nativeWindows/create1RectBoxOnImage)
+#add_example(createRectBoxesOnImage nativeWindows/createRectBoxesOnImage)
+#add_example(parseVideoFrameByFrameWithASlider nativeWindows/parseVideoFrameByFrameWithASlider)
+#add_example(useTrackbarAsPauseButton nativeWindows/useTrackbarAsPauseButton)
 add_example(ex1 nativeWindows/ex1)
 
-add_example(readVideo ImageVideoAndDataFiles/readVideo)
-add_example(readFramesFromCamera ImageVideoAndDataFiles/readFramesFromCamera)
-add_example(writeVideoToFile ImageVideoAndDataFiles/writeVideoToFile)
+#add_example(readVideo ImageVideoAndDataFiles/readVideo)
+#add_example(readFramesFromCamera ImageVideoAndDataFiles/readFramesFromCamera)
+#add_example(writeVideoToFile ImageVideoAndDataFiles/writeVideoToFile)
+#add_example(readImage ImageVideoAndDataFiles/readImage)
 
