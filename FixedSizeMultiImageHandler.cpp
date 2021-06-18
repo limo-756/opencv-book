@@ -17,8 +17,14 @@ void FixedSizeMultiImageHandler::collateComponentImages() {
                 (double) sizeOfComponentImage.width / image.cols);
         resize(image, temp, Size2d(0, 0), scale, scale);
 
+        Mat dest;
+        if (temp.channels() != collatedImage.channels()) {
+            cvtColor(temp, dest, COLOR_GRAY2RGB);
+        } else {
+            dest = temp;
+        }
         Rect2i componentImageCoordinatesInCollatedImage = getComponentImageCoordInCollatedImage(imageNumber, temp);
-        temp.copyTo(collatedImage(componentImageCoordinatesInCollatedImage));
+        dest.copyTo(collatedImage(componentImageCoordinatesInCollatedImage));
     }
 }
 
