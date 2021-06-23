@@ -42,7 +42,7 @@ include_directories("${CMAKE_CURRENT_LIST_DIR}")# Since there are a lot of examp
 # your cmake projects and use the syntax shown above.
 macro(add_example exeName name)
     add_executable(${exeName} ${name}.cpp FixedSizeMultiImageHandler.cpp)
-    target_link_libraries(${exeName} ${OpenCV_LIBS} )
+    target_link_libraries(${exeName} ${OpenCV_LIBS} -I/usr/local/include -L/usr/local/lib -ltesseract -llept)
 endmacro()# if an example requires GUI, call this macro to check DLIB_NO_GUI_SUPPORT to include or exclude
 macro(add_gui_example name)
     if (DLIB_NO_GUI_SUPPORT)
@@ -64,4 +64,7 @@ add_example(readVideo ImageVideoAndDataFiles/readVideo)
 add_example(readFramesFromCamera ImageVideoAndDataFiles/readFramesFromCamera)
 add_example(writeVideoToFile ImageVideoAndDataFiles/writeVideoToFile)
 add_example(readImage ImageVideoAndDataFiles/readImage)
+
+
+add_example(tesseract ImageToText/tesseract)
 
