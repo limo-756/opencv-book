@@ -6,6 +6,11 @@ using namespace cv;
 
 const string WINDOW_NAME = "SHOW_IMAGE";
 
+
+void addFlagNameToImage(FixedSizeMultiImageHandler& imgHandler, const int imageNumber, const string& flagName) {
+    putText(imgHandler.getCollatedImage(), flagName, imgHandler.getImageBottomLeftCoord(imageNumber), FONT_HERSHEY_PLAIN, 1, Scalar( 0, 255, 0, 128 ), 2, 8, false);
+}
+
 int main() {
     namedWindow(WINDOW_NAME, WINDOW_NORMAL);
     moveWindow(WINDOW_NAME, 300, 200);
@@ -30,7 +35,29 @@ int main() {
     } else {
         vector<Mat> imgVec = vector<Mat>();
         imgVec.push_back(img1);imgVec.push_back(img2);imgVec.push_back(img3);imgVec.push_back(img4);imgVec.push_back(img5);imgVec.push_back(img6);
+        vector<string> flagName = vector<string>();
+        flagName.emplace_back("IMREAD_UNCHANGED");flagName.emplace_back("IMREAD_GRAYSCALE");flagName.emplace_back("IMREAD_COLOR");flagName.emplace_back("IMREAD_ANYDEPTH");flagName.emplace_back("IMREAD_ANYCOLOR");flagName.emplace_back("IMREAD_LOAD_GDAL");
         FixedSizeMultiImageHandler imgHandler = FixedSizeMultiImageHandler(imgVec);
+        for (int i = 0; i < flagName.size(); ++i) {
+            addFlagNameToImage(imgHandler, i, flagName[i]);
+        }
+
+        imshow(WINDOW_NAME, imgHandler.getCollatedImage());
+        waitKey(0);
+    }
+
+    if (img7.empty() || img8.empty() || img9.empty() || img10.empty() || img11.empty() || img12.empty() || img13.empty()) {
+        cout << "File could not be opened in first 6 formats" << endl;
+    } else {
+        vector<Mat> imgVec = vector<Mat>();
+        imgVec.push_back(img7);imgVec.push_back(img8);imgVec.push_back(img9);imgVec.push_back(img10);imgVec.push_back(img11);imgVec.push_back(img12);imgVec.push_back(img13);
+        vector<string> flagName = vector<string>();
+        flagName.emplace_back("IMREAD_REDUCED_GRAYSCALE_2");flagName.emplace_back("IMREAD_REDUCED_COLOR_2");flagName.emplace_back("IMREAD_REDUCED_GRAYSCALE_4");flagName.emplace_back("IMREAD_REDUCED_COLOR_4");flagName.emplace_back("IMREAD_REDUCED_GRAYSCALE_8");flagName.emplace_back("IMREAD_REDUCED_COLOR_8");flagName.emplace_back("IMREAD_IGNORE_ORIENTATION");
+        FixedSizeMultiImageHandler imgHandler = FixedSizeMultiImageHandler(imgVec);
+        for (int i = 0; i < flagName.size(); ++i) {
+            addFlagNameToImage(imgHandler, i, flagName[i]);
+        }
+
         imshow(WINDOW_NAME, imgHandler.getCollatedImage());
         waitKey(0);
     }

@@ -31,5 +31,9 @@ public:
 
     Mat& getCollatedImage();
 
-    int getImageNumber(Point2i pixelCoord);
+    int getImageNumber(const Point2i& pixelCoord) const;
+
+    Rect2i getImageCoord(int imageNumber);
+
+    Point2i getImageBottomLeftCoord(const int imageNumber);
 };

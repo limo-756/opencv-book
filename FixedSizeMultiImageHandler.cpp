@@ -81,8 +81,21 @@ Mat &FixedSizeMultiImageHandler::getCollatedImage() {
     return collatedImage;
 }
 
-int FixedSizeMultiImageHandler::getImageNumber(const Point2i pixelCoord) {
-    return (pixelCoord.x / sizeOfComponentImage.width) + (pixelCoord.y / sizeOfComponentImage.height) * noOfCols + 1;
+int FixedSizeMultiImageHandler::getImageNumber(const Point2i& pixelCoord) const {
+    return (pixelCoord.x / sizeOfComponentImage.width) + (pixelCoord.y / sizeOfComponentImage.height) * noOfCols;
+}
+
+Rect2i FixedSizeMultiImageHandler::getImageCoord(int imageNumber) {
+    assert(imageNumber < componentImages.size());
+    int rowNumber = imageNumber/this->noOfCols;
+    int colNumber = imageNumber%this->noOfCols;
+    return {sizeOfComponentImage.width * colNumber, sizeOfComponentImage.height * rowNumber, sizeOfComponentImage.width, sizeOfComponentImage.height};
+}
+
+Point2i FixedSizeMultiImageHandler::getImageBottomLeftCoord(const int imageNumber) {
+    assert(imageNumber < componentImages.size());
+    Point2i bottomRightCoord = this->getImageCoord(imageNumber).br();
+    return {bottomRightCoord.x - sizeOfComponentImage.width, bottomRightCoord.y};
 }
 
 
