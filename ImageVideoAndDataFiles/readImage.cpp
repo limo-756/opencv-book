@@ -8,7 +8,13 @@ const string WINDOW_NAME = "SHOW_IMAGE";
 
 
 void addFlagNameToImage(FixedSizeMultiImageHandler& imgHandler, const int imageNumber, const string& flagName) {
-    putText(imgHandler.getCollatedImage(), flagName, imgHandler.getImageBottomLeftCoord(imageNumber), FONT_HERSHEY_PLAIN, 1, Scalar( 0, 255, 0, 128 ), 2, 8, false);
+    putText(imgHandler.getCollatedImage(), flagName, imgHandler.getImageBottomLeftCoord(imageNumber), FONT_HERSHEY_PLAIN, 1, Scalar( 0, 255, 0, 128 ), 2, 8,false);
+
+    int textHeight;
+    Size textSize = getTextSize(flagName, FONT_HERSHEY_PLAIN, 1, 2, &textHeight);
+
+    string message = "c : " + std::to_string(imgHandler.getComponentImage(imageNumber).channels());
+    putText(imgHandler.getCollatedImage(), message, Size(imgHandler.getImageBottomLeftCoord(imageNumber).x, imgHandler.getImageBottomLeftCoord(imageNumber).y - textSize.height - 2), FONT_HERSHEY_PLAIN, 1, Scalar( 0, 255, 0, 128 ), 2, 8, false);
 }
 
 int main() {

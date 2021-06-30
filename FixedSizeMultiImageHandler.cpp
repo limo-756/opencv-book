@@ -81,6 +81,10 @@ Mat &FixedSizeMultiImageHandler::getCollatedImage() {
     return collatedImage;
 }
 
+Mat &FixedSizeMultiImageHandler::getComponentImage(const int imageNumber) {
+    return componentImages[imageNumber];
+}
+
 int FixedSizeMultiImageHandler::getImageNumber(const Point2i& pixelCoord) const {
     return (pixelCoord.x / sizeOfComponentImage.width) + (pixelCoord.y / sizeOfComponentImage.height) * noOfCols;
 }
