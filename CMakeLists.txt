@@ -64,6 +64,7 @@ add_example(readVideo ImageVideoAndDataFiles/readVideo)
 add_example(readFramesFromCamera ImageVideoAndDataFiles/readFramesFromCamera)
 add_example(writeVideoToFile ImageVideoAndDataFiles/writeVideoToFile)
 add_example(readImage ImageVideoAndDataFiles/readImage)
+add_example(writeImage ImageVideoAndDataFiles/writeImage)
 
 
 add_example(tesseract ImageToText/tesseract)
