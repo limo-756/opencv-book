@@ -67,6 +67,7 @@ add_example(readImage ImageVideoAndDataFiles/readImage)
 add_example(writeImage ImageVideoAndDataFiles/writeImage)
 add_example(ImageVideoAndDataFiles_ex1 ImageVideoAndDataFiles/ex1)
 add_example(ImageVideoAndDataFiles_ex1_a ImageVideoAndDataFiles/ex1-a)
+add_example(ImageVideoAndDataFiles_ex1_b ImageVideoAndDataFiles/ex1-b)
 
 
 add_example(tesseract ImageToText/tesseract)

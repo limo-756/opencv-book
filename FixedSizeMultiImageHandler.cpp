@@ -102,4 +102,20 @@ Point2i FixedSizeMultiImageHandler::getImageBottomLeftCoord(const int imageNumbe
     return {bottomRightCoord.x - sizeOfComponentImage.width, bottomRightCoord.y};
 }
 
+void FixedSizeMultiImageHandler::addTextToImages(const vector<vector<string>> &texts) {
+    assert(texts.size() == componentImages.size());
+    for (int imageNumber = 0; imageNumber < texts.size(); ++imageNumber) {
+        int textHeight = 0;
+        for (int textNumber = 0; textNumber < texts[imageNumber].size(); ++textNumber) {
+            Size textLocation = Size(getImageBottomLeftCoord(imageNumber).x, getImageBottomLeftCoord(imageNumber).y - textHeight);
+            putText(getCollatedImage(), texts[imageNumber][textNumber], textLocation, FONT_HERSHEY_PLAIN, 1, Scalar(0, 255, 0, 128 ), 2, 8, false);
+
+            int temp = 0;
+            Size textSize = getTextSize(texts[imageNumber][textNumber], FONT_HERSHEY_PLAIN, 1, 2, &temp);
+            textHeight = textHeight + 2 + textSize.height;
+        }
+    }
+}
+
+
 

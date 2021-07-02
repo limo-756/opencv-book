@@ -38,4 +38,6 @@ public:
     Rect2i getImageCoord(int imageNumber);
 
     Point2i getImageBottomLeftCoord(const int imageNumber);
+
+    void addTextToImages(const vector<vector<string>> &texts);
 };
