@@ -31,13 +31,15 @@ public:
 
     Mat& getCollatedImage();
 
-    Mat& getComponentImage(const int imageNumber);
+    Mat& getComponentImage(int imageNumber);
 
     int getImageNumber(const Point2i& pixelCoord) const;
 
-    Rect2i getImageCoord(int imageNumber);
+    Point2i getCoordinatesWithRespectToComponentImage(const Point2i& pixelCoord);
 
-    Point2i getImageBottomLeftCoord(const int imageNumber);
+    Rect2i getComponentImageCoordInCollatedImage(int imageNumber);
+
+    Point2i getImageBottomLeftCoord(int imageNumber);
 
     void addTextToImages(const vector<vector<string>> &texts);
 };

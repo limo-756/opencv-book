@@ -69,6 +69,7 @@ add_example(ImageVideoAndDataFiles_ex1 ImageVideoAndDataFiles/ex1)
 add_example(ImageVideoAndDataFiles_ex1_a ImageVideoAndDataFiles/ex1-a)
 add_example(ImageVideoAndDataFiles_ex1_b ImageVideoAndDataFiles/ex1-b)
 add_example(ImageVideoAndDataFiles_ex2 ImageVideoAndDataFiles/ex2)
+add_example(ImageVideoAndDataFiles_ex2_a ImageVideoAndDataFiles/ex2-a)
 
 
 add_example(tesseract ImageToText/tesseract)

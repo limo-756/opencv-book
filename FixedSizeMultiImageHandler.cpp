@@ -89,7 +89,13 @@ int FixedSizeMultiImageHandler::getImageNumber(const Point2i& pixelCoord) const 
     return (pixelCoord.x / sizeOfComponentImage.width) + (pixelCoord.y / sizeOfComponentImage.height) * noOfCols;
 }
 
-Rect2i FixedSizeMultiImageHandler::getImageCoord(int imageNumber) {
+Point2i FixedSizeMultiImageHandler::getCoordinatesWithRespectToComponentImage(const Point2i& pixelCoord) {
+    int imageNumber = getImageNumber(pixelCoord);
+    Rect2i componentImageCoord = getComponentImageCoordInCollatedImage(imageNumber);
+    return {pixelCoord.x - componentImageCoord.x, pixelCoord.y - componentImageCoord.y};
+}
+
+Rect2i FixedSizeMultiImageHandler::getComponentImageCoordInCollatedImage(int imageNumber) {
     assert(imageNumber < componentImages.size());
     int rowNumber = imageNumber/this->noOfCols;
     int colNumber = imageNumber%this->noOfCols;
@@ -98,7 +104,7 @@ Rect2i FixedSizeMultiImageHandler::getImageCoord(int imageNumber) {
 
 Point2i FixedSizeMultiImageHandler::getImageBottomLeftCoord(const int imageNumber) {
     assert(imageNumber < componentImages.size());
-    Point2i bottomRightCoord = this->getImageCoord(imageNumber).br();
+    Point2i bottomRightCoord = this->getComponentImageCoordInCollatedImage(imageNumber).br();
     return {bottomRightCoord.x - sizeOfComponentImage.width, bottomRightCoord.y};
 }
 
