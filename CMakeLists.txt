@@ -75,7 +75,8 @@ add_example(ImageVideoAndDataFiles_ex2_a ImageVideoAndDataFiles/ex2-a)
 add_example(ImageVideoAndDataFiles_ex3_a ImageVideoAndDataFiles/ex3-a)
 add_example(ImageVideoAndDataFiles_ex3_b ImageVideoAndDataFiles/ex3-b)
 add_example(ImageVideoAndDataFiles_ex4 ImageVideoAndDataFiles/ex4)
-add_example(ImageVideoAndDataFiles_ex5-1 ImageVideoAndDataFiles/ex5-a)
+add_example(ImageVideoAndDataFiles_ex5-a ImageVideoAndDataFiles/ex5-a)
+add_example(ImageVideoAndDataFiles_ex5-b ImageVideoAndDataFiles/ex5-b)
 
 
 add_example(tesseract ImageToText/tesseract)
