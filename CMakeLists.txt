@@ -43,7 +43,7 @@ include_directories("${CMAKE_CURRENT_LIST_DIR}")# Since there are a lot of examp
 # CMakeLists.txt file.  However, usually you will create only one executable in
 # your cmake projects and use the syntax shown above.
 macro(add_example exeName name)
-    add_executable(${exeName} ${name}.cpp FixedSizeMultiImageHandler.cpp)
+    add_executable(${exeName} ${name}.cpp FixedSizeMultiImageHandler.cpp Color.cpp)
     target_link_libraries(${exeName} ${OpenCV_LIBS} ${PLOT_GRAPH_LIB} -I/usr/local/include -L/usr/local/lib -ltesseract -llept)
 endmacro()# if an example requires GUI, call this macro to check DLIB_NO_GUI_SUPPORT to include or exclude
 macro(add_gui_example name)
@@ -75,6 +75,7 @@ add_example(ImageVideoAndDataFiles_ex2_a ImageVideoAndDataFiles/ex2-a)
 add_example(ImageVideoAndDataFiles_ex3_a ImageVideoAndDataFiles/ex3-a)
 add_example(ImageVideoAndDataFiles_ex3_b ImageVideoAndDataFiles/ex3-b)
 add_example(ImageVideoAndDataFiles_ex4 ImageVideoAndDataFiles/ex4)
+add_example(ImageVideoAndDataFiles_ex5-1 ImageVideoAndDataFiles/ex5-a)
 
 
 add_example(tesseract ImageToText/tesseract)
