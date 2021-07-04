@@ -24,12 +24,14 @@ if(WIN32)
     set(OpenCV_DIR "D:/_Program Files/opencv/build/x64/vc15/lib")
 endif()
 if(APPLE)
-    set(OpenCV_DIR "/usr/local/Cellar/opencv/4.0.1/lib/cmake/opencv4")
+    set(OpenCV_DIR "/usr/local/Cellar/opencv/4.5.1_2/lib/cmake/opencv4")
 endif()
 find_package(OpenCV REQUIRED)# If the package has been found, several variables will
 # be set, you can find the full list with descriptions
 # in the OpenCVConfig.cmake file.
 # Print some message showing some of them
+
+set(PLOT_GRAPH_LIB "/Users/anurag.sh/workspace/c++/cvplot/build/libcvplot.a")
 message(STATUS "OpenCV library status:")
 message(STATUS "    config: ${OpenCV_DIR}")
 message(STATUS "    version: ${OpenCV_VERSION}")
@@ -42,7 +44,7 @@ include_directories("${CMAKE_CURRENT_LIST_DIR}")# Since there are a lot of examp
 # your cmake projects and use the syntax shown above.
 macro(add_example exeName name)
     add_executable(${exeName} ${name}.cpp FixedSizeMultiImageHandler.cpp)
-    target_link_libraries(${exeName} ${OpenCV_LIBS} -I/usr/local/include -L/usr/local/lib -ltesseract -llept)
+    target_link_libraries(${exeName} ${OpenCV_LIBS} ${PLOT_GRAPH_LIB} -I/usr/local/include -L/usr/local/lib -ltesseract -llept)
 endmacro()# if an example requires GUI, call this macro to check DLIB_NO_GUI_SUPPORT to include or exclude
 macro(add_gui_example name)
     if (DLIB_NO_GUI_SUPPORT)
@@ -71,6 +73,7 @@ add_example(ImageVideoAndDataFiles_ex1_b ImageVideoAndDataFiles/ex1-b)
 add_example(ImageVideoAndDataFiles_ex2 ImageVideoAndDataFiles/ex2)
 add_example(ImageVideoAndDataFiles_ex2_a ImageVideoAndDataFiles/ex2-a)
 add_example(ImageVideoAndDataFiles_ex3_a ImageVideoAndDataFiles/ex3-a)
+add_example(ImageVideoAndDataFiles_ex3_b ImageVideoAndDataFiles/ex3-b)
 
 
 add_example(tesseract ImageToText/tesseract)
