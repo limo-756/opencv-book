@@ -84,3 +84,4 @@ add_example(ImageVideoAndDataFiles_ex10-b ImageVideoAndDataFiles/ex10-b)
 add_example(tesseract ImageToText/tesseract)
 
 add_example(functorsInOpencv_ex1 functorsInOpencv/ex1)
+add_example(functorsInOpencv_ex2 functorsInOpencv/ex2)
